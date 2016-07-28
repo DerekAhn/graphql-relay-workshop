@@ -5,24 +5,33 @@ const { graphql } = require('graphql');
 const app         = require('express')();
 const graphQLHttp = require('express-graphql');
 const d           = require('eyes').inspector({ length: -1 });
-
-const mySchema = require('./schema');
+const DataLoader  = require('dataloader');
 
 const config = {
   database: 'forwardjs'
 };
+const pool   = new pg.Pool(config);
 
-const pool = new pg.Pool(config);
+const mySchema = require('./schema');
+const db       = require('./database')(pool)
 
 app.get('/', (req, res) => {
   res.send("Hello Express");
 })
 
-app.use('/graphql', graphQLHttp({
-  schema: mySchema,
-  context: { pool },
-  graphiql: true
-}));
+app.use('/graphql', (req, res) => {
+  const userLoader = new DataLoader(keys => myBatchGetUsers(keys));
+
+  const loaders = {
+    usersByIds: new DataLoader(db.getUsersByIds)
+  };
+
+  return graphQLHttp({
+    schema: mySchema,
+    context: { pool, loaders },
+    graphiql: true
+  })(req, res);
+});
 
 app.listen(3000, () => {
   d('Express is running...');

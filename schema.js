@@ -57,7 +57,7 @@ const queryType = new GraphQLObjectType({
         }
       },
 
-      resolve: (obj, args, { pool }) => db(pool).getUserById(args.id)
+      resolve: (obj, args, { loaders }) => loaders.usersByIds.load(args.id)
     }
   }
 });
