@@ -14,7 +14,10 @@ module.exports = pool => ({
   },
   getAllUsers() {
     return pool
-          .query('select * from spouses', [])
-          .then(result => humps.camelizeKeys(result.rows));
+      .query(`
+        select * from spouses
+        limit $1
+      `, [first])
+      .then(result => humps.camelizeKeys(result.rows));
   }
 });
