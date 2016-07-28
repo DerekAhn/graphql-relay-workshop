@@ -49,7 +49,9 @@ const queryType = new GraphQLObjectType({
   fields: {
     person: {
       type: personType,
-      resolve: () => person
+      resolve: (obj, args, { pool }) => pool
+                    .query('select * from spouses where id = 1', [])
+                    .then(result => humps.camelizeKeys(result.rows[0]))
     }
   }
 });
