@@ -35,6 +35,10 @@ const personType = new GraphQLObjectType({
     lastName: {
       type: GraphQLString
     },
+    fullName: {
+      type: GraphQLString,
+      resolve: obj => `${obj.firstName} ${obj.lastName}`
+    },
     email: {
       type: GraphQLString
     },
