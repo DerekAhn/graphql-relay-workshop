@@ -14,6 +14,11 @@ const config = {
 
 const pool = new pg.Pool(config);
 
+pool.query('select * from spouses', [])
+.then(result => {
+  d(result.rows);
+});
+
 // const query = process.argv[2];
 
 // exec mySchema query
