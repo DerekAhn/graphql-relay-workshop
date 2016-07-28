@@ -14,20 +14,13 @@ const config = {
 
 const pool = new pg.Pool(config);
 
-// const query = process.argv[2];
-
-// exec mySchema query
-
-// graphql(mySchema, query)
-//   .then(result => d(result))
-//   .catch(error => d(error))
-
 app.get('/', (req, res) => {
   res.send("Hello Express");
 })
 
 app.use('/graphql', graphQLHttp({
   schema: mySchema,
+  context: { pool },
   graphiql: true
 }));
 
