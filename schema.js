@@ -24,17 +24,20 @@ const personType = new GraphQLObjectType({
     id: {
       type: GraphQLID
     },
-    first_name: {
-      type: GraphQLString
+    firstName: {
+      type: GraphQLString,
+      resolve: obj => obj.first_name
     },
-    last_name: {
-      type: GraphQLString
+    lastName: {
+      type: GraphQLString,
+      resolve: obj => obj.last_name
     },
     email: {
       type: GraphQLString
     },
-    spouse_id: {
-      type: GraphQLInt
+    spouseId: {
+      type: GraphQLInt,
+      resolve: obj => obj.spouse_id
     }
   }
 });
