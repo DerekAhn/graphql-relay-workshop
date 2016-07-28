@@ -11,16 +11,7 @@ const {
 
 } = require('graphql');
 
-const humps = require('humps');
-
-
-const person = humps.camelizeKeys({
-  id: 1,
-  first_name: 'Derek',
-  last_name: 'Ahn',
-  email: 'derek@webmocha.com',
-  spouse_id: 8
-});
+const db = require('./database');
 
 const personType = new GraphQLObjectType({
   name: 'Person',
@@ -44,9 +35,7 @@ const personType = new GraphQLObjectType({
     },
     spouse: {
       type: personType,
-      resolve: (obj, args, { pool }) => pool
-      .query('select * from spouses where id = $1', [obj.spouseId])
-      .then(result => humps.camelizeKeys(result.rows[0]))
+      resolve: (obj, args, { pool }) => db(pool).getUserById(obj.spouseId)
     }
   })
 });
@@ -63,9 +52,7 @@ const queryType = new GraphQLObjectType({
         }
       },
 
-      resolve: (obj, args, { pool }) => pool
-                    .query('select * from spouses where id = $1', [args.id])
-                    .then(result => humps.camelizeKeys(result.rows[0]))
+      resolve: (obj, args, { pool }) => db(pool).getUserById(args.id)
     }
   }
 });
