@@ -11,7 +11,10 @@ const {
 const {
   nodeDefinitions,
   globalIdField,
-  fromGlobalId
+  fromGlobalId,
+  connectionDefinitions,
+  connectionArgs,
+  connectionFromPromisedArray
 } = require('graphql-relay');
 
 const db = require('./database');
@@ -54,11 +57,20 @@ const personType = new GraphQLObjectType({
   }
 });
 
+const { connectionType:  personConnectionType } = connectionDefinitions({ name: 'Person', nodeType: personType });
+
 const queryType = new GraphQLObjectType({
   name: 'RootQuery',
 
   fields: {
     node: nodeField,
+
+    personConnection: {
+      type: personConnectionType, // { first: ..., after: ... }
+      args: connectionArgs,
+      resolve: (obj, args, { pool }) => connectionFromPromisedArray(db(pool).getAllUsers(), args)
+    },
+
     people: {
       type: new GraphQLList(personType),
       resolve: (obj, args, { pool }) => db(pool).getAllUsers()
