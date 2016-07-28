@@ -2,7 +2,8 @@
 
 const pg          = require('pg');
 const { graphql } = require('graphql');
-const app         = require('express')();
+const express     = require('express');
+const app         = express();
 const graphQLHttp = require('express-graphql');
 const d           = require('eyes').inspector({ length: -1 });
 const DataLoader  = require('dataloader');
@@ -15,9 +16,7 @@ const pool   = new pg.Pool(config);
 const mySchema = require('./schema');
 const db       = require('./database')(pool)
 
-app.get('/', (req, res) => {
-  res.send("Hello Express");
-})
+app.use(express.static('public'));
 
 app.use('/graphql', (req, res) => {
   const userLoader = new DataLoader(keys => myBatchGetUsers(keys));

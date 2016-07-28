@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+    <h3>Hello Exporess</h3>
+    <script type="text/javascript">
+      fetch('/graphql?query={people{fullName}}')
+      .then(response => response.json())
+      .then(results => console.log(results))
+    </script>
+  </body>
+</html>
+
