@@ -6,9 +6,11 @@ module.exports = pool => ({
   // TODO Fix the order (garuntee order)
   // TODO Fix the mapping 1:1
   getUsersByIds(userIds) {
-    return pool
-          .query('select * from spouses where id = ANY($1)', [userIds])
-          .then(result => humps.camelizeKeys(result.rows));
+    return pool.query(`
+      select id, first_name, last_name, email, spouse_id,
+      'Person' as type
+      from spouses where id = ANY($1)
+    `, [userIds]).then(result => humps.camelizeKeys(result.rows));
   },
   getAllUsers() {
     return pool
