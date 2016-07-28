@@ -3,15 +3,16 @@
 const pg          = require('pg');
 const { graphql } = require('graphql');
 const express     = require('express');
-const app         = express();
+const DataLoader  = require('dataloader');
 const graphQLHttp = require('express-graphql');
 const d           = require('eyes').inspector({ length: -1 });
-const DataLoader  = require('dataloader');
 
 const config = {
   database: 'forwardjs'
 };
-const pool   = new pg.Pool(config);
+
+const pool = new pg.Pool(config);
+const app  = express();
 
 const mySchema = require('./schema');
 const db       = require('./database')(pool)
