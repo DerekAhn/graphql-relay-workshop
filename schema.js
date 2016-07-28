@@ -25,7 +25,7 @@ const person = humps.camelizeKeys({
 const personType = new GraphQLObjectType({
   name: 'Person',
 
-  fields: {
+  fields: () => ({
     id: {
       type: GraphQLID
     },
@@ -42,10 +42,13 @@ const personType = new GraphQLObjectType({
     email: {
       type: GraphQLString
     },
-    spouseId: {
-      type: GraphQLInt
+    spouse: {
+      type: personType,
+      resolve: (obj, args, { pool }) => pool
+      .query('select * from spouses where id = $1', [obj.spouseId])
+      .then(result => humps.camelizeKeys(result.rows[0]))
     }
-  }
+  })
 });
 
 const queryType = new GraphQLObjectType({
