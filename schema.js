@@ -6,7 +6,8 @@ const {
   GraphQLString,
   GraphQLInt,
   GraphQLList,
-  GraphQLID
+  GraphQLID,
+  GraphQLNonNull
 
 } = require('graphql');
 
@@ -49,8 +50,14 @@ const queryType = new GraphQLObjectType({
   fields: {
     person: {
       type: personType,
+      args:  {
+        id: {
+          type: new GraphQLNonNull(GraphQLInt)
+        }
+      },
+
       resolve: (obj, args, { pool }) => pool
-                    .query('select * from spouses where id = 1', [])
+                    .query('select * from spouses where id = $1', [args.id])
                     .then(result => humps.camelizeKeys(result.rows[0]))
     }
   }
