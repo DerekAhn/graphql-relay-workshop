@@ -44,6 +44,11 @@ const queryType = new GraphQLObjectType({
   name: 'RootQuery',
 
   fields: {
+    people: {
+      type: new GraphQLList(personType),
+      resolve: (obj, args, { pool }) => db(pool).getAllUsers()
+    },
+
     person: {
       type: personType,
       args:  {
