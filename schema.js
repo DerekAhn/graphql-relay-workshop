@@ -9,31 +9,31 @@ const {
   GraphQLID
 } = require('graphql');
 
-let counter  = 42;
-
-let counterObj = {
-  id: 55,
-  value: 42
+const person = {
+  id: 1,
+  first_name: 'Derek',
+  last_name: 'Ahn',
+  email: 'derek@webmocha.com',
+  spouse_id: 8
 };
 
-let counters = [42, 43];
-
-let counterCollection = [{
-  id: 550,
-  value: 42
-}, {
-  id: 551,
-  value: 43
-}];
-
-const counterObjType = new GraphQLObjectType({
-  name: 'CounterObj',
+const personType = new GraphQLObjectType({
+  name: 'Person',
 
   fields: {
     id: {
       type: GraphQLID
     },
-    value: {
+    first_name: {
+      type: GraphQLString
+    },
+    last_name: {
+      type: GraphQLString
+    },
+    email: {
+      type: GraphQLString
+    },
+    spouse_id: {
       type: GraphQLInt
     }
   }
@@ -43,44 +43,15 @@ const queryType = new GraphQLObjectType({
   name: 'RootQuery',
 
   fields: {
-    hello: {
-      type: GraphQLString,
-      resolve: () => "World"
-    },
-    counter: {
-      type: GraphQLInt,
-      resolve: () => ++counter
-    },
-    counterObj: {
-      type: counterObjType,
-      resolve: () => counterObj
-    },
-    counterCollection: {
-      type: new GraphQLList(counterObjType),
-      resolve: () => counterCollection
-    },
-    counters: {
-      type: new GraphQLList(GraphQLInt),
-      resolve: () => counters
+    person: {
+      type: personType,
+      resolve: person
     }
-
   }
 });
 
-const mutationType = new GraphQLObjectType({
-  name: 'RootMutation',
-
-  fields: {
-    incrementCounter: {
-      type: GraphQLInt,
-      resolve: () => ++counter
-    }
-  }
-})
-
 const mySchema = new GraphQLSchema({
   query: queryType,
-  mutation: mutationType
 });
 
 module.exports = mySchema;
