@@ -45,7 +45,7 @@ const queryType = new GraphQLObjectType({
   fields: {
     person: {
       type: personType,
-      resolve: person
+      resolve: () => person
     }
   }
 });
