@@ -4,12 +4,12 @@ Forward.js summit's workshop with Samer Buna.
 
 ## GraphQL
 
-(GraphQL playground)[https://www.graphqlhub.com/playground]
+[GraphQL playground](https://www.graphqlhub.com/playground)
 
-> reference code-along https://github.com/reactjscamp/learn-graphql.
+[Code Along Reference](https://github.com/reactjscamp/learn-graphql)
 
 
-> Fully built app built in react, relay, graphql, express, mongoDB https://github.com/RGRjs/rgrjs.com http://rgrjs.com/.
+> [Fully built app built in react, relay, graphql, express, mongoDB](https://github.com/RGRjs/rgrjs.com http://rgrjs.com/).
 
 
 Query - GraphQL (subset of JSON if you will)
@@ -237,16 +237,13 @@ const MySchema = require('./schema');
 const query = process.argv[2];
 
 
-// exec mySchema query
+// exec mySchema query => promise
 graphql(mySchema, query)
 .then(result => console.log(result))
 .catch(error => console.log(error));
 ```
 
-=> promise
-
-
-cool psql https://eggerapps.at/postico/
+- [Cool psql client](https://eggerapps.at/postico/)
 
 - 4th arg is execution info is known as "info".
 
